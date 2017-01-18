@@ -181,6 +181,22 @@ Custom property | Description | Default
           type: Number,
           value: 18
         },
+        
+        
+        /**
+         * If true, automatically add columns to show all colors.
+         */
+        autofillColumns: {
+        	type: Boolean
+        },
+        
+        /**
+         * If true, automatically add rows to show all colors.
+         * It has a higher priority, if both autofillColumns and autofillRows are set.
+         */
+        autofillRows: {
+        	type: Boolean
+        },
 
         /**
          * The orientation against which to align the menu dropdown
@@ -228,7 +244,35 @@ Custom property | Description | Default
           sizeOfAColorDiv = sizeOfAColorDiv.replace('px', '');
         }
 
-        var rowCount = this.colorList.length / this.columnCount;
+		// If column count set to 0 or negative, set it to the number of colors. 
+		// Reduce column count, if there are less colors than columns
+		if(this.columnCount < 1 || this.columnCount > this.colorList.length) {
+			this.columnCount = this.colorList.length;
+		}
+
+
+		var rowCount = Math.floor(this.colorList.length / this.columnCount);       
+		var unshownedCount = this.colorList.length % this.columnCount;
+               
+        // Autofill Columns
+        if(this.autofillColumns) {        
+	        if(unshownedCount > 0) {
+	        	var addedColumns = Math.floor(unshownedCount / rowCount);
+	        	var restCount = unshownedCount % rowCount;	        	
+	        	if(restCount > 0) {
+	        		addedColumns++;
+	        	}
+	        	
+	        	this.columnCount = this.columnCount + addedColumns;
+	        }
+        }
+        // Autofill Rows
+        else if(this.autofillRows) {        	
+        	if(unshownedCount > 0) {
+        		rowCount++;
+        	}
+        }
+        	   
         this.$.container.style.height = rowCount * sizeOfAColorDiv + 'px';
         this.$.container.style.width = this.columnCount * sizeOfAColorDiv + 'px';
       },
