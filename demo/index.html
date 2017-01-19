@@ -27,6 +27,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 0 10px;
       }
     </style>
+    	
+    <script>
+    	function togglePicker() {
+    		document.getElementById("toggledPicker").disabled = !document.getElementById("toggledPicker").disabled;
+    		document.getElementById("toggledText").innerHTML = "disabled:" + document.getElementById("toggledPicker").disabled;
+    	}	
+    </script>
   </head>
   <body unresolved>
     <div class="vertical-section-container centered">
@@ -67,6 +74,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       		<paper-swatch-picker column-count=5 color-list='["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue"]'></paper-swatch-picker>
       		<paper-swatch-picker autofill-columns column-count=5 color-list='["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue"]'></paper-swatch-picker>
       		<paper-swatch-picker autofill-rows column-count=5 color-list='["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue"]'></paper-swatch-picker>
+      	</template>
+      </demo-snippet>
+      
+      <h3>The picker can be disabled</h3> 
+      <input type="button" value="Switch" onclick="togglePicker();"/>
+      <span id="toggledText">disabled: true</span>
+      
+      <demo-snippet class="centered-demo">
+      	<template>
+      		<paper-swatch-picker disabled  id="toggledPicker"></paper-swatch-picker> 		
       	</template>
       </demo-snippet>
     </div>

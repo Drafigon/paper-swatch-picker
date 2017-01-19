@@ -114,12 +114,14 @@ Custom property | Description | Default
       }
     </style>
 
-    <paper-menu-button vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]">
+    <paper-menu-button disabled$="{{disabled}}" vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]">
       <paper-icon-button
           id="iconButton"
           icon="swatch:format-color-fill"
           class="dropdown-trigger" alt="color picker"
-          noink$="[[noink]]">
+          noink$="[[noink]]"
+          disabled$="{{disabled}}"
+          >
       </paper-icon-button>
       <paper-listbox class="dropdown-content" id="container">
         <template is="dom-repeat" items="{{colorList}}">
@@ -224,6 +226,12 @@ Custom property | Description | Default
          */
         noink: {
           type: Boolean
+        },
+        
+        disabled: {
+        	type: Boolean,
+        	reflectToAttribute: true,
+        	notify: true
         }
       },
 
@@ -234,6 +242,7 @@ Custom property | Description | Default
       },
 
       attached: function() {
+      	
         // Fit the color boxes in columns. We first need to get the width of
         // a color box (which is customizable), and then change the box's
         // width to fit all the columns.
@@ -275,9 +284,11 @@ Custom property | Description | Default
         	   
         this.$.container.style.height = rowCount * sizeOfAColorDiv + 'px';
         this.$.container.style.width = this.columnCount * sizeOfAColorDiv + 'px';
+        
       },
 
       _onOpen: function() {
+
         // Fill in the colors if we haven't already.
         if (this._renderedColors)
           return;
@@ -287,15 +298,15 @@ Custom property | Description | Default
           colorBoxes[i].style.color = colorBoxes[i].innerHTML;
           colorBoxes[i].innerHTML = '';
         }
-        this._renderedColors = true;
+        this._renderedColors = true;      
       },
 
-      _addOverflowClass: function() {
-        this.$.container.toggleClass('opened', true);
+      _addOverflowClass: function() { 
+        	this.$.container.toggleClass('opened', true);
       },
 
       _removeOverflowClass: function() {
-        this.$.container.toggleClass('opened', false);
+        	this.$.container.toggleClass('opened', false);
       },
 
       _onColorTap: function(event) {
